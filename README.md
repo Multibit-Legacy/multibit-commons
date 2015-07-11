@@ -38,3 +38,23 @@ build it manually. You will need to use the HEAD of the `develop` branch.
     mvn clean install
 
 Later this will be available in a host repository (such as Maven Central) which will simplify the build process.
+
+## How to add new classes
+
+The general criteria for adding a class are as follows:
+
+* it must assist MultiBit operations directly 
+* it must be shared by 2 or more projects
+* inclusion would simplify a project (e.g. remove need for external library etc)
+* it should not break/force refactoring of existing commons entries (downstream should safely update)
+
+Generally classes are marked as candidates for inclusion by being moved into an `org.multibit.commons.xyz` package within
+the consuming project (e.g. MultiBit HD or BritService). At the moment when a duplicate is required then they should be shared
+through the MultiBit Commons.
+
+## When to release
+
+The release cycle for MultiBit Commons should be fast. We want to avoid `develop-SNAPSHOT` dependencies on the commons
+wherever possible.
+
+Downstream projects should upgrade when it suits them and not be forced to through
