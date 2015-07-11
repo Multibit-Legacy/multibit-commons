@@ -37,11 +37,11 @@ public class PGPUtilsTest {
 
   private static final String EXAMPLE_TEXT = "The quick brown fox jumps over the lazy dog. 01234567890. !@#$%^&*(). ,.;:[]-_=+";
 
-  public static final String TEST_MATCHER_PUBLIC_KEYRING_FILE = "src/test/resources/matcher/gpg/pubring.gpg";
+  public static final String TEST_MATCHER_PUBLIC_KEYRING_FILE = "src/test/resources/fixtures/gpg/pubring.gpg";
 
-  public static final String TEST_MATCHER_SECRET_KEYRING_FILE = "src/test/resources/matcher/gpg/secring.gpg";
+  public static final String TEST_MATCHER_SECRET_KEYRING_FILE = "src/test/resources/fixtures/gpg/secring.gpg";
 
-  public static final String TEST_MATCHER_PUBLIC_KEY_FILE = "src/test/resources/matcher/export-to-payer/matcher-key.asc";
+  public static final String TEST_MATCHER_PUBLIC_KEY_FILE = "src/test/resources/fixtures/gpg/public-key.asc";
 
   private static final String MODULE_PREFIX = "brit-core";
 
