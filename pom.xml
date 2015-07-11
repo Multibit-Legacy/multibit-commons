@@ -1,0 +1,232 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.multibit</groupId>
+  <artifactId>multibit-commons</artifactId>
+
+  <!-- Only change this on a master or release branch -->
+  <version>develop-SNAPSHOT</version>
+
+  <name>MultiBit Commons</name>
+  <description>Classes and libraries to support MultiBit projects</description>
+  <inceptionYear>2015</inceptionYear>
+
+  <properties>
+    <!-- Source encoding -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Library versions with multiple modules -->
+    <slf4j.version>1.7.2</slf4j.version>
+    <findbugs.version>3.0.0</findbugs.version>
+
+  </properties>
+
+  <!-- Developer list -->
+  <developers>
+    <developer>
+      <name>Gary Rowe</name>
+      <email>gary.rowe@bitcoin-solutions.co.uk</email>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
+
+  <!-- MIT license -->
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
+  <!-- GitHub for source code management -->
+  <scm>
+    <connection>scm:git:git://github.com/bitcoin-solutions/multibit-commons.git</connection>
+    <developerConnection>scm:git:git@github.com:bitcoin-solutions/multibit-commons.git</developerConnection>
+    <url>http://github.com/bitcoin-solutions/multibit-commons/</url>
+    <tag>develop-SNAPSHOT</tag>
+  </scm>
+
+  <!-- GitHub for issue management -->
+  <issueManagement>
+    <system>github</system>
+    <url>http://github.com/bitcoin-solutions/multibit-commons/issues#issue/</url>
+  </issueManagement>
+
+  <repositories>
+    <!-- Define the MultiBit staging repository for releases and snapshots -->
+    <!-- Cannot use rawgithub.com due to DH prime too high for Java 7 -->
+    <repository>
+      <id>mbhd-maven-release</id>
+      <url>https://raw.github.com/bitcoin-solutions/mbhd-maven/master/releases</url>
+      <releases/>
+    </repository>
+    <repository>
+      <id>mbhd-maven-snapshot</id>
+      <url>https://raw.github.com/bitcoin-solutions/mbhd-maven/master/snapshots</url>
+      <!-- These artifacts change frequently during development iterations -->
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
+  <build>
+
+    <plugins>
+
+      <!-- All compilation is done under Java7 -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <debug>true</debug>
+        </configuration>
+      </plugin>
+
+      <!-- Findbugs
+           Notes:
+           See Issue #323 for initial response to introduction and supporting notes
+           See target/findBugs.xml for report
+           Use Findbugs-IDEA plugin with "Medium" (default) or "Low" (recommended) threshold
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>${findbugs.version}</version>
+        <configuration>
+          <effort>Max</effort>
+          <!-- The project currently passes with Medium but Low is desired -->
+          <threshold>Medium</threshold>
+          <xmlOutput>true</xmlOutput>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Generates a source code JAR during package -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- For deploying to Maven Central -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.4.1</version>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+  <dependencies>
+
+    <!-- Logging is through SLF4J and Logback -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.10</version>
+    </dependency>
+
+    <!-- Google Guava for code utilities -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <!-- Require v16.0.1+ for full JDK1.7.0_51+ compliance -->
+      <version>16.0.1</version>
+    </dependency>
+
+    <!-- Joda time for timestamps -->
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.2</version>
+    </dependency>
+
+    <!-- Bitcoinj (Alice for wallet extensions) -->
+    <dependency>
+      <groupId>org.bitcoinj</groupId>
+      <artifactId>bitcoinj-core</artifactId>
+      <version>0.13-SNAPSHOT-alice-0.1.0</version>
+    </dependency>
+
+    <!-- Spongy Castle for PGP support -->
+    <dependency>
+      <groupId>com.madgag.spongycastle</groupId>
+      <artifactId>pg</artifactId>
+      <version>1.51.0.0</version>
+    </dependency>
+
+    <!-- Findbugs annotations -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>annotations</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
+    <!-- Testing -->
+
+    <!-- JUnit for testing -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- FEST for fluent assertions -->
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-assert-core</artifactId>
+      <version>2.0M10</version>
+    </dependency>
+
+    <!-- Mockito for mocking -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>1.8.5</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>
