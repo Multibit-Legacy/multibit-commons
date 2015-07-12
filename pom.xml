@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.multibit</groupId>
-  <artifactId>multibit-commons</artifactId>
+  <artifactId>commons</artifactId>
 
   <!-- Only change this on a master or release branch -->
   <version>develop-SNAPSHOT</version>
@@ -163,7 +163,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.0.10</version>
+      <version>1.1.2</version>
     </dependency>
 
     <!-- Google Guava for code utilities -->
